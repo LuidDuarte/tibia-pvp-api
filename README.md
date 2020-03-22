@@ -12,7 +12,7 @@ Were useds:
 
 HOW TO USE
 ===
-
+https://tibia-skull.herokuapp.com 
 ### There are two ways to check:
 - By a character name, his last death will be used
 - By a Death Text that tibia shows in their site
