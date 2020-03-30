@@ -12,7 +12,6 @@ class Last_Death():
             self.still_skull = dictionary['still_skull']
 
         else:
-            print(date)
             self.date = datetime.strptime(date,'%b %d %Y, %H:%M:%S')
             if 'Assisted ' in names:
                 self.assisted_by = names.split('Assisted ')[1].split(',')
@@ -68,12 +67,12 @@ class Character():
             self.level = character_information[10].text
             self.world = character_information[14].text
         if table_death[0].text == 'Character Deaths':
-            date = table_death[1].text.replace('\xa0', ' ').split(' CEST')[0]
+            date = CEST_or_CET_split(table_death[1].text.replace('\xa0', ' '))[0]
             names = table_death[2].text.split('by ')[1].replace(' and', ',').replace('\xa0', ' ').replace('.', '')
             self.last_death = Last_Death(date, names)
         elif tables[3].findAll('td')[0].text == 'Character Deaths':
             table_death = tables[3].findAll('td')
-            date = table_death[1].text.replace('\xa0', ' ').split(' CEST')[0]
+            date = CEST_or_CET_split(table_death[1].text.replace('\xa0', ' '))[0]
             names = table_death[2].text.split('by ')[1].replace(' and', ',').replace('\xa0', ' ')
             self.last_death = Last_Death(date, names)
         else:
@@ -107,9 +106,11 @@ def verify_by_name(name):
     return character.last_death
 
 def verify_by_text(text):
-    date, names = text.split(' CEST')
+    date, names = CEST_or_CET_split(text)
     names = names.split('by ')[1].replace(' and', ',').replace('.', '')
     last_death = Last_Death(date, names)
     last_death.verify_skull
     return last_death
 
+def CEST_or_CET_split(text):
+    return text.replace('CEST', 'CET').split(' CET')
