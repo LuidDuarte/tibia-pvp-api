@@ -27,29 +27,22 @@
             </div>
 
         </div>
-        <div class="row justify-content-center">
+        <div class="row">
+            <div class="col">
+                <h3 style="text-align: center;">Quem injustou continua PK?</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
             <form class="formulario" action="{{url_for('verify_by_char')}}" method="post">
-                <label for="character_name">Name:</laebel>
                 <div class="input-group">
-                    <input type="text" class="form-control" name="character_name" id="character_name">
-                    <span class="input-group-btn" style="width:0;">
-                        <button class="btn btn-default" type="button">Confirmar</button>
-                    </span>
+                    <label for="character_name" style="margin: 10px 10px 10px 10px;"><b>Nome:</b></label>
+                    <input type="text" class="form-control" name="character_name" id="character_name"/>
+                    <button class="btn btn-success" type="submit" style="margin: 5px 5px 5px 5px;"><b>Buscar</b></button>
                 </div>
             </form>
-
-            <hr>
-
-            <form class="formulario" action="{{url_for('verify_by_death_text')}}" method="post">
-                <label for="death_text">Site Death Text:</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" name="death_text" id="death_text">
-                    <span class="input-group-btn" style="width:0;">
-                        <button class="btn btn-default" type="button">Confirmar</button>
-                    </span>
-                </div>
-                <span> Example: "Mar 21 2020, 23:01:22 CET	Eliminated at Level XX by Example, Example Assisted by Example"  </span>
-            </form>
+            </div> 
+        </div>
         </div>
     
         

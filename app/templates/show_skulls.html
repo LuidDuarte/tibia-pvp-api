@@ -6,42 +6,79 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+        <script>
+            const copyToClipboard = element => {
+                console.log(element)
+                const el = document.createElement('textarea');
+                el.value = "exiva " + "\"" + element.children[0].textContent;
+                el.setAttribute('readonly', '');
+                el.style.position = 'absolute';
+                el.style.left = '-9999px';
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+                alerta = document.getElementById('alerta');
+                alerta.textContent = el.value + " Copiado!";
+                
+            };
+        </script>
+
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
         <link rel=stylesheet type=text/css href="{{url_for('static', filename='estilo.css')}}">
     </head>
     <body>
-        <div class="row justify-content-center">
-            <div class="table">
-                <h1 align="center">Still Skull</h1>
-                <table>
+            <div style="background-color: darkseagreen;">
+                <p style="text-align: center;" id='alerta'></p>
+            </div>
+            <div class="row">
+            <div class="col align-self-center">
+                <h3 style="text-align: center; margin-top:30px; margin-bottom: -40px;">Ainda não foi morto</h1>
+                <table class="table">
                     <tr>
-                        <th>Name</th>
+                        <th>Nome</th>
                         <th>Level</th>
+                        <th>Vocação</th>
+                        <th> </th>
                     </tr>
-                    {%for skull in last_death['still_skull']%}
+                    {%for skull in character['last_death']['skulls']%}
+                    <tr onclick=copyToClipboard(this)>
+                        <td>{{skull['name']}}</td>
+                        <td>{{skull['level']}}</td>
+                        <td>{{skull['vocation']}}</td>
+                    </tr>
+                    {%endfor%}
+                </table>
+            </div>
+            <hr/>
+            </div>
+            <div class="row">
+            <div class="col align-self-center">
+                <h3 style="text-align: center; margin-bottom: -40px;">Já foi morto</h1>
+                <table class="table">
+                    <tr>
+                        <th>Nome</th>
+                        <th>Level</th>
+                        <th>Vocação</th>
+                    </tr>
+                    {%for skull in character['last_death']['already_lost']%}
                     <tr>
                         <td>{{skull['name']}}</td>
                         <td>{{skull['level']}}</td>
+                        <td>{{skull['vocation']}}</td>            
                     </tr>
                     {%endfor%}
                 </table>
-                <h1 align="center">Already Lost</h1>
-                <table>
-                    <tr>
-                        <th>Name</th>
-                    </tr>
-                    {%for lost in last_death['already_lost']%}
-                    <tr>
-                        <td>{{lost}}</td>                    
-                    </tr>
-                    {%endfor%}
-                </table>
+            </div>
+        </div>
+             
                 <div class="row justify-content-center">
-                    <a class= "btn btn-danger" href="{{url_for('index')}}">Voltar</a>
-                    <a class= "btn btn-default" href="{{url_for('refresh')}}">Refresh</a>
-                </div>
-            </div>  
+                    <a class= "btn btn-danger" href="{{url_for('index')}}" style="margin-right: 10px;">Voltar</a>
+                    <a class= "btn btn-success" href="{{url_for('refresh')}}" style="margin-left: 10px;">Refresh</a>
+                </div> 
+        
+        
         </div>     
 
         <!-- Optional JavaScript -->

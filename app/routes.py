@@ -8,7 +8,7 @@ from flask import (
     request,
     current_app,
     make_response)
-from app.models import verify_by_name, verify_by_text, Last_Death
+from app.controllers import Character
 from app import app
 
 @app.route('/')
@@ -18,24 +18,15 @@ def index():
 @app.route('/verify_by_char/submit', methods=['POST'])
 def verify_by_char():
     try:
-        session['last_death'] = verify_by_name(request.form['character_name']).__dict__
-        return render_template('show_skulls.html', last_death=session['last_death'])
+        session['character'] = request.form['character_name']
+        char = Character(session['character'], view_involveds=True)
+        return render_template('show_skulls.html', character=char.__dict__)
     except:
         flash('Error!')
         return redirect(url_for('index'))
 
-@app.route('/verify_by_death_text/submit', methods=['POST'])
-def verify_by_death_text():
-    # try:
-    session['last_death'] = verify_by_text(request.form['death_text']).__dict__
-    return render_template('show_skulls.html', last_death=session['last_death'])
-    # except:
-    #     flash('Error!')
-    #     return redirect(url_for('index'))
 
 @app.route('/refresh')
 def refresh():
-    last_death = Last_Death(dictionary=session['last_death'])
-    last_death.refresh
-    session['last_death'] = last_death.__dict__
-    return render_template('show_skulls.html', last_death=session['last_death'])
+    char = Character(session['character'], view_involveds=True)
+    return render_template('show_skulls.html', character=char.__dict__)
