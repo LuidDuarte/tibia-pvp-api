@@ -3,12 +3,9 @@ from flask import (
     redirect,
     url_for,
     session,
-    abort,
     flash,
-    request,
-    current_app,
-    make_response)
-from app.controllers import Character
+    request)
+from app.serializer import CharacterSerializer, InjustedSerializer
 from app import app
 
 @app.route('/')
@@ -18,15 +15,23 @@ def index():
 @app.route('/verify_by_char/submit', methods=['POST'])
 def verify_by_char():
     try:
-        session['character'] = request.form['character_name']
-        char = Character(session['character'], view_involveds=True)
-        return render_template('show_skulls.html', character=char.__dict__)
-    except:
+        character_name = request.form['character_name']
+        char = CharacterSerializer.from_api(character_name)
+        injusted = InjustedSerializer.from_api(char)
+        injusted.verify_skulls()
+        session['injusted'] = InjustedSerializer.object_to_dict(injusted)
+        return render_template('show_skulls.html', injusted=session['injusted'])
+    except Exception as e:
+        print(f'{e}')
         flash('Error!')
         return redirect(url_for('index'))
 
 
 @app.route('/refresh')
 def refresh():
-    char = Character(session['character'], view_involveds=True)
-    return render_template('show_skulls.html', character=char.__dict__)
+    injusted = InjustedSerializer.dict_to_object(session['injusted'])
+    injusted = InjustedSerializer.refresh_skull_from_api(injusted)
+    injusted.verify_skulls()
+    session['injusted'] = InjustedSerializer.object_to_dict(injusted)
+
+    return render_template('show_skulls.html', injusted=session['injusted'])
