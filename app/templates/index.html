@@ -1,56 +1,74 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
+
+<head>
     <title>Index</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+        integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
     <link rel=stylesheet type=text/css href="{{url_for('static', filename='estilo.css')}}">
-    </head>
-    <body>
-        <div class="row justify-content-center">
-            <h1> Zenobra Pune </h1>
-            <div class="center-block">
-                {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                <ul class=flashes>
-                    <div class="alert alert-warning" role="alert">
-                        {% for message in messages %}
-                        {{ message }}
-                        {% endfor %}
-                    </div>
-                </ul>
-                {% endif %}
-                {% endwith %}
-            </div>
+</head>
 
+<body>
+    <div class="row justify-content-center">
+        <h1> Zenobra Pune </h1>
+        <div class="center-block">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class=flashes>
+                <div class="alert alert-warning" role="alert">
+                    {% for message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+            </ul>
+            {% endif %}
+            {% endwith %}
         </div>
-        <div class="row">
-            <div class="col">
-                <h3 style="text-align: center;">Quem injustou continua PK?</h3>
-            </div>
+
+    </div>
+    <div class="row">
+        <div class="col">
+            <h3 style="text-align: center;">Quem injustou continua PK?</h3>
         </div>
-        <div class="row">
-            <div class="col">
+    </div>
+    <div class="row">
+        <div class="col">
             <form class="formulario" action="{{url_for('verify_by_char')}}" method="post">
                 <div class="input-group">
                     <label for="character_name" style="margin: 10px 10px 10px 10px;"><b>Nome:</b></label>
-                    <input type="text" class="form-control" name="character_name" id="character_name"/>
-                    <button class="btn btn-success" type="submit" style="margin: 5px 5px 5px 5px;"><b>Buscar</b></button>
+                    <input type="text" class="form-control" name="character_name" id="character_name" />
+                    <button class="btn btn-success" type="submit"
+                        style="margin: 5px 5px 5px 5px;"><b>Buscar</b></button>
                 </div>
             </form>
-            </div> 
         </div>
+    </div>
+    <footer>
+        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2021 Copyright:
+            <a class="text-reset fw-bold" href="https://www.tibia.com/community/?name=Luid+Bluesman">Luid</a>
         </div>
-    
-        
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
-    </body>
+    </footer>
+
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"
+        integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+        crossorigin="anonymous"></script>
+</body>
+
 </html>
