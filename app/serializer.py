@@ -15,12 +15,12 @@ class CharacterSerializer:
         level = character['data']['level']
         vocation = character['data']['vocation']
 
-        last_death = cls.get_lastdeath_from_api(character['deaths'])
+        last_death = cls.get_last_death_from_api(character['deaths'])
 
         return Character(name, level, vocation, last_death)
 
     @classmethod
-    def get_lastdeath_from_api(cls, deaths) -> LastDeath:
+    def get_last_death_from_api(cls, deaths) -> LastDeath:
         if deaths:
             death = deaths[0]
             death_time = datetime.strptime(death['date']['date'].split('.')[0], '%Y-%m-%d %H:%M:%S' )
