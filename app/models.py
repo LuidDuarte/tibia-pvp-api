@@ -1,9 +1,9 @@
 from datetime import datetime
 
 class LastDeath:
-    def __init__(self, death_time=None, involveds=None):
+    def __init__(self, death_time=None, killers=None):
         self.death_time = death_time
-        self.involveds = involveds or []
+        self.killers = killers or []
 
     def lost_skull(self, injusted):
         if hasattr(self, 'death_time') and self.death_time:

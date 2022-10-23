@@ -7,15 +7,17 @@ class CharacterSerializer:
 
     @classmethod
     def from_api(cls, name:str) -> Character:
-        character_name = name.replace(' ', '+')
-        r = requests.get(f'https://api.tibiadata.com/v2/characters/{character_name}.json')
-        character = r.json()['characters']
-        
-        name = character['data']['name'].split(' (traded)')[0]
-        level = character['data']['level']
-        vocation = character['data']['vocation']
+        character_name = name.replace(' ', '%20')
+        r = requests.get(f'https://api.tibiadata.com/v3/character/{character_name}')
+        character = r.json()['characters']['character']
+        deaths = r.json()['characters']['deaths']
 
-        last_death = cls.get_lastdeath_from_api(character['deaths'])
+        
+        name = character['name'].split(' (traded)')[0]
+        level = character['level']
+        vocation = character['vocation']
+
+        last_death = cls.get_lastdeath_from_api(deaths)
 
         return Character(name, level, vocation, last_death)
 
@@ -23,10 +25,10 @@ class CharacterSerializer:
     def get_lastdeath_from_api(cls, deaths) -> LastDeath:
         if deaths:
             death = deaths[0]
-            death_time = datetime.strptime(death['date']['date'].split('.')[0], '%Y-%m-%d %H:%M:%S' )
-            involveds = death.get('involved')
+            death_time = datetime.strptime(death['time'], '%Y-%m-%dT%H:%M:%SZ' )
+            killers = death.get('killers')
 
-            return LastDeath(death_time, involveds)
+            return LastDeath(death_time, killers)
 
     @classmethod
     def object_to_dict(cls, char:Character) -> dict:
@@ -67,7 +69,7 @@ class InjustedSerializer:
     def from_api(cls, char:Character) -> Injusted:
         skulls = []
         threads = [threading.Thread(target=cls.thread_skull_append_function,
-                                    args=(char['name'], skulls)) for char in char.last_death.involveds]
+                                    args=(char['name'], skulls)) for char in char.last_death.killers]
         for thread in threads:
             thread.start()
         for thread in threads:
@@ -94,9 +96,9 @@ class LastDeathSerializer:
 
     @classmethod
     def object_to_dict(cls, last_death:LastDeath) -> dict:
-        dictionary = {'death_time': None, 'involveds': []}
+        dictionary = {'death_time': None, 'killers': []}
         if hasattr(last_death, 'death_time'):
             dictionary['death_time'] = last_death.death_time
-        if hasattr(last_death, 'involveds'):
-            dictionary['involveds'] = last_death.involveds
+        if hasattr(last_death, 'killers'):
+            dictionary['killers'] = last_death.killers
         return dictionary
