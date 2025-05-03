@@ -15,7 +15,7 @@ def index():
 @app.route('/verify_by_char/submit', methods=['POST'])
 def verify_by_char():
     try:
-        character_name = request.form['character_name']
+        character_name = request.form['character_name'].strip()
         char = CharacterSerializer.from_api(character_name)
         injusted = InjustedSerializer.from_api(char)
         injusted.verify_skulls()

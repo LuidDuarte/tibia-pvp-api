@@ -8,11 +8,10 @@ class CharacterSerializer:
     @classmethod
     def from_api(cls, name:str) -> Character:
         character_name = name.replace(' ', '%20')
-        r = requests.get(f'https://api.tibiadata.com/v3/character/{character_name}')
-        character = r.json()['characters']['character']
-        deaths = r.json()['characters']['deaths']
+        r = requests.get(f'https://api.tibiadata.com/v4/character/{character_name}')
+        character = r.json()['character']['character']
+        deaths = r.json()['character'].get('deaths', [])
 
-        
         name = character['name'].split(' (traded)')[0]
         level = character['level']
         vocation = character['vocation']
@@ -27,6 +26,9 @@ class CharacterSerializer:
             death = deaths[0]
             death_time = datetime.strptime(death['time'], '%Y-%m-%dT%H:%M:%SZ' )
             killers = death.get('killers')
+            # ignore monsters
+            if killers:
+                killers = [killer for killer in killers if killer.get('player', False)]
 
             return LastDeath(death_time, killers)
 
@@ -49,11 +51,11 @@ class InjustedSerializer:
         dictionary = {'char': None, 'skulls': [], 'already_lost': []}
         dictionary['char'] = CharacterSerializer.object_to_dict(injusted.char)
 
-        if injusted.skulls: 
-            dictionary['skulls'] = [CharacterSerializer.object_to_dict(skull) 
+        if injusted.skulls:
+            dictionary['skulls'] = [CharacterSerializer.object_to_dict(skull)
                                         for skull in injusted.skulls]
         if injusted.already_lost:
-            dictionary['already_lost'] = [CharacterSerializer.object_to_dict(already_lost) 
+            dictionary['already_lost'] = [CharacterSerializer.object_to_dict(already_lost)
                                             for already_lost in injusted.already_lost]
         return dictionary
 
@@ -73,7 +75,7 @@ class InjustedSerializer:
         for thread in threads:
             thread.start()
         for thread in threads:
-            thread.join()   
+            thread.join()
         return Injusted(char=char, skulls=skulls)
 
     @classmethod
@@ -88,7 +90,7 @@ class InjustedSerializer:
         for thread in threads:
             thread.start()
         for thread in threads:
-            thread.join()    
+            thread.join()
         injusted.skulls = skulls
         return injusted
 
