@@ -1,0 +1,11 @@
+[project]
+name = "tibia-pvp-api"
+version = "0.1.0"
+description = "This is a project to help pvp tibia players know which players that killed him had already died and which ones are waiting a revenge."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "flask>=3.1.1",
+    "gunicorn>=23.0.0",
+    "requests>=2.32.3",
+]

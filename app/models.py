@@ -1,4 +1,3 @@
-from datetime import datetime
 
 class LastDeath:
     def __init__(self, death_time=None, killers=None):
@@ -7,7 +6,7 @@ class LastDeath:
 
     def lost_skull(self, injusted):
         if hasattr(self, 'death_time') and self.death_time:
-            return  injusted.char.last_death.death_time < self.death_time 
+            return  injusted.char.last_death.death_time < self.death_time
 
     def __repr__(self):
         return f'<{self.death_time}>'
@@ -40,7 +39,7 @@ class Injusted:
                 skulls_copy.remove(skull)
                 self.already_lost.append(skull)
         self.skulls = sorted(skulls_copy, key=lambda player: player.level, reverse=True)
-    
+
     def refresh_skull_from_api(self):
         from .serializer import CharacterSerializer
         new_skull = []

@@ -1,0 +1,46 @@
+# Diretórios de ambientes virtuais
+venv/
+.venv/
+
+# Cache do Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Cache de pacotes
+pip-wheel-metadata/
+*.egg-info/
+dist/
+build/
+
+# Arquivos de configuração e cache do editor
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+.idea/
+.vscode/
+
+# Arquivos de controle de versão
+.git/
+.gitignore
+
+# Arquivos de ambiente e segredos
+.env
+.env.*
+
+# Dados e arquivos gerados
+*.db
+*.sqlite3
+instance/
+uploads/
+media/
+data/
+.mypy_cache/
+.pytest_cache/
+
+# Outros arquivos que não precisam ir para o container
+docker-compose.yml
+Dockerfile

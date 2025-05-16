@@ -1,5 +1,5 @@
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 from app.models import Injusted, LastDeath, Character
 import threading
 
@@ -24,7 +24,9 @@ class CharacterSerializer:
     def get_lastdeath_from_api(cls, deaths) -> LastDeath:
         if deaths:
             death = deaths[0]
-            death_time = datetime.strptime(death['time'], '%Y-%m-%dT%H:%M:%SZ' )
+            # after send request to jinja, somehow Flask stores in "session" the timezones in UTC
+            # even if it's naive. So we need to set the timezone to UTC avoid errors comparing naive and aware datetimes
+            death_time = datetime.strptime(death['time'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc)
             killers = death.get('killers')
             # ignore monsters
             if killers:
